@@ -1,0 +1,1 @@
+go get -u github.com/tgglv/wc-api-go
