@@ -1,1 +1,4 @@
-go get -u github.com/tgglv/wc-api-go
+# Golang Woocommerce downloader
+```
+go build
+```
