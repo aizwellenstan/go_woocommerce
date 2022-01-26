@@ -57,30 +57,23 @@ func main() {
 		if bodyBytes, err := ioutil.ReadAll(r.Body); err != nil {
 			log.Fatal(err)
 		} else {
-			// fmt.Println(string(bodyBytes))
 			d1 := []byte(string(bodyBytes))
 			err := ioutil.WriteFile("orders.json", d1, 0644)
 			check(err)
 
 			orders := loadJson(d1)
-			fmt.Println(orders[0].ID)
+			inputs := orders
+			var outputlist = map[string][]string{}
+			for _, inp := range inputs {
+				for _, item := range inp.LineItems {
+					if len(inp.CouponLines) > 0 {
+						outputlist[inp.CouponLines[0].Code] = append(outputlist[inp.CouponLines[0].Code], item.Name,)
+					}
+				}
+			}
 
-			// var output lib.output = interface{}
-			// var outputlist = make(map[int]lib.output)
-
-			// for _, inp := range inputs {
-			// 	outputlist[inp.ID] = output{inp.ID, inp.Name, append(outputlist[inp.ID].Image, inp.Image)}
-			// }
-
-			// var outputs []output
-
-			// for _, outp := range outputlist{
-			// 	outputs = append(outputs,outp)
-			// }
-
-			// jsonoutput, err := json.Marshal(outputs)
-
-			// fmt.Println(string(jsonoutput))
+			jsonStr := toJson(outputlist)
+			fmt.Println(jsonStr)
 		}
 	}
 }
@@ -89,4 +82,10 @@ func loadJson(d1 []byte) lib.Orders {
 	var orders lib.Orders
 	json.Unmarshal(d1, &orders)
 	return orders
+}
+
+
+func toJson(d1 interface{}) string {
+	jsondata, _ := json.Marshal(d1)
+	return string(jsondata)
 }
