@@ -9,6 +9,8 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"emcoding/json"
+	."github.com/aizwellenstan/go_woocommerce/src/modules"
 )
 
 func check(e error) {
@@ -57,8 +59,16 @@ func main() {
 		} else {
 			fmt.Println(string(bodyBytes))
 			d1 := []byte(string(bodyBytes))
+			orders := loadJson(d1)
+			fmt.Println(orders)
 			err := ioutil.WriteFile("orders.json", d1, 0644)
 			check(err)
 		}
 	}
+}
+
+func loadJson(d1 byte) {
+	var orders Orders
+	json.Unmarshal(d1, &orders)
+	return orders
 }
