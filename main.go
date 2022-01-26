@@ -9,7 +9,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"encoding/json"
 	"github.com/aizwellenstan/go_woocommerce/lib"
 )
 
@@ -61,7 +60,7 @@ func main() {
 			err := ioutil.WriteFile("orders.json", d1, 0644)
 			check(err)
 
-			orders := loadJson(d1)
+			orders := lib.LoadJson(d1)
 			inputs := orders
 			var outputlist = map[string][]string{}
 			for _, inp := range inputs {
@@ -72,20 +71,8 @@ func main() {
 				}
 			}
 
-			jsonStr := toJson(outputlist)
+			jsonStr := lib.ToJson(outputlist)
 			fmt.Println(jsonStr)
 		}
 	}
-}
-
-func loadJson(d1 []byte) lib.Orders {
-	var orders lib.Orders
-	json.Unmarshal(d1, &orders)
-	return orders
-}
-
-
-func toJson(d1 interface{}) string {
-	jsondata, _ := json.Marshal(d1)
-	return string(jsondata)
 }
