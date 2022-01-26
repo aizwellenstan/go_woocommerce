@@ -59,10 +59,28 @@ func main() {
 		} else {
 			// fmt.Println(string(bodyBytes))
 			d1 := []byte(string(bodyBytes))
-			orders := loadJson(d1)
-			fmt.Println(orders[0].ID)
 			err := ioutil.WriteFile("orders.json", d1, 0644)
 			check(err)
+
+			orders := loadJson(d1)
+			fmt.Println(orders[0].ID)
+
+			// var output lib.output = interface{}
+			// var outputlist = make(map[int]lib.output)
+
+			// for _, inp := range inputs {
+			// 	outputlist[inp.ID] = output{inp.ID, inp.Name, append(outputlist[inp.ID].Image, inp.Image)}
+			// }
+
+			// var outputs []output
+
+			// for _, outp := range outputlist{
+			// 	outputs = append(outputs,outp)
+			// }
+
+			// jsonoutput, err := json.Marshal(outputs)
+
+			// fmt.Println(string(jsonoutput))
 		}
 	}
 }
