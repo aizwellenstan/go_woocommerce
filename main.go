@@ -10,7 +10,7 @@ import (
 	"log"
 	"net/http"
 	"encoding/json"
-	"./lib/orders.go"
+	"github.com/aizwellenstan/go_woocommerce/lib"
 )
 
 func check(e error) {
@@ -57,18 +57,18 @@ func main() {
 		if bodyBytes, err := ioutil.ReadAll(r.Body); err != nil {
 			log.Fatal(err)
 		} else {
-			fmt.Println(string(bodyBytes))
+			// fmt.Println(string(bodyBytes))
 			d1 := []byte(string(bodyBytes))
 			orders := loadJson(d1)
-			fmt.Println(orders)
+			fmt.Println(orders[0].ID)
 			err := ioutil.WriteFile("orders.json", d1, 0644)
 			check(err)
 		}
 	}
 }
 
-func loadJson(d1 byte) {
-	var orders Orders
+func loadJson(d1 []byte) lib.Orders {
+	var orders lib.Orders
 	json.Unmarshal(d1, &orders)
 	return orders
 }

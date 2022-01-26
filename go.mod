@@ -1,4 +1,4 @@
-module github.com/aizwellenstan/go_wocommerce
+module github.com/aizwellenstan/go_woocommerce
 
 go 1.17
 

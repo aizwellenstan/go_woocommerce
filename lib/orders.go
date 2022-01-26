@@ -183,12 +183,4 @@ type Orders []struct {
 			Href string `json:"href"`
 		} `json:"customer"`
 	} `json:"_links,omitempty"`
-	Links struct {
-		Self []struct {
-			Href string `json:"href"`
-		} `json:"self"`
-		Collection []struct {
-			Href string `json:"href"`
-		} `json:"collection"`
-	} `json:"_links,omitempty"`
 }
