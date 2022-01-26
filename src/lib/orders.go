@@ -1,4 +1,4 @@
-package modules
+package lib
 
 type Orders []struct {
 	ID               int    `json:"id"`

@@ -10,7 +10,7 @@ import (
 	"log"
 	"net/http"
 	"emcoding/json"
-	."github.com/aizwellenstan/go_woocommerce/src/modules"
+	."github.com/aizwellenstan/go_woocommerce/src/lib"
 )
 
 func check(e error) {
