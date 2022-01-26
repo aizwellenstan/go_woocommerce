@@ -9,7 +9,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"emcoding/json"
+	"encoding/json"
 	."github.com/aizwellenstan/go_woocommerce/src/lib"
 )
 
