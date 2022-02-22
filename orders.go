@@ -13,15 +13,14 @@ import (
 	"github.com/aizwellenstan/go_woocommerce/lib"
 )
 
-func main() {
-    http.HandleFunc("/", BestSellerHandler)
-
-    fmt.Println("Server started at port 4000")
-    log.Fatal(http.ListenAndServe(":4000", nil))
+func check(e error) {
+    if e != nil {
+        panic(e)
+    }
 }
 
-func BestSellerHandler(w http.ResponseWriter, r *http.Request) {
-	viper.AddConfigPath(".")
+func main() {
+	viper.AddConfigPath("./")
 	viper.SetConfigName("config") // config file name without extension
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(".")
@@ -69,9 +68,7 @@ func BestSellerHandler(w http.ResponseWriter, r *http.Request) {
 				popularList = append(popularList, inp.ID)
 				// }
 			}
-			// fmt.Println(popularList)
-			fmt.Fprintf(w, "%v",popularList)
+			fmt.Println(popularList)
 		}
 	}
-	
 }
