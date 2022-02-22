@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"github.com/aizwellenstan/go_woocommerce/lib"
 )
 
@@ -31,13 +32,13 @@ func main() {
 			os.Exit(1)
 	}
 
-	url := viper.GetString("url")
+	urlString := viper.GetString("url")
 	key := viper.GetString("key")
 	secret := viper.GetString("secret")
 
 	factory := client.Factory{}
 	c := factory.NewClient(options.Basic{
-		URL:    url,
+		URL:    urlString,
 		Key:    key,
 		Secret: secret,
 		Options: options.Advanced{
@@ -47,7 +48,11 @@ func main() {
 		},
 	})
 
-	if r, err := c.Get("orders", nil); err != nil {
+	v := url.Values{}
+	v.Set("orderby", "popularity")
+	v.Add("order", "desc")
+
+	if r, err := c.Get("products", v); err != nil {
 		log.Fatal(err)
 	} else if r.StatusCode != http.StatusOK {
 		log.Fatal("Unexpected StatusCode:", r)
@@ -57,22 +62,13 @@ func main() {
 			log.Fatal(err)
 		} else {
 			d1 := []byte(string(bodyBytes))
-			err := ioutil.WriteFile("orders.json", d1, 0644)
-			check(err)
-
-			orders := lib.LoadJson(d1)
-			inputs := orders
-			var outputlist = map[string][]string{}
+			inputs := lib.LoadProductsJson(d1)
+			popularList := make([]int, 0)
 			for _, inp := range inputs {
-				for _, item := range inp.LineItems {
-					if len(inp.CouponLines) > 0 {
-						outputlist[inp.CouponLines[0].Code] = append(outputlist[inp.CouponLines[0].Code], item.Name,)
-					}
-				}
+				popularList = append(popularList, inp.ID)
+				// }
 			}
-
-			jsonStr := lib.ToJson(outputlist)
-			fmt.Println(jsonStr)
+			fmt.Println(popularList)
 		}
 	}
 }
